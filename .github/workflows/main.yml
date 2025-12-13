@@ -1,0 +1,22 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: |
+            pages deploy tojemoc --project-name=tjm-sk
+            pages deploy jakubdobos --project-name=jakubdobos-eu
+            pages deploy nixies --project-name=nixietubeclock-eu
+       
