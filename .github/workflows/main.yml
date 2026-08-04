@@ -19,5 +19,5 @@ jobs:
           command: |
             pages deploy tojemoc --project-name=tjm-sk
             pages deploy jakubdobos --project-name=jakubdobos-eu
-            pages deploy nixies --project-name=nixietubeclock-eu
+#            pages deploy nixies --project-name=nixietubeclock-eu
        
