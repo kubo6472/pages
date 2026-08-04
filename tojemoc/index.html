@@ -1,134 +1,295 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ToJeMoc">
+  <meta name="description" content="tojemoc — current projects">
   <title>TO JE MOC</title>
   <style>
-    @import url('https://fonts.googleapis.com/css?family=Fira+Mono:400');
+    @import url("https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&display=swap");
 
-    div.links {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 32px;
-      letter-spacing: 2px
+    :root {
+      --bg: #0e0e0e;
+      --fg: #f2f2f2;
+      --muted: #8a8a8a;
+      --link: #8fd2ff;
+      --link-dim: #7cbcdc;
+      --line: #262626;
+      --card: #161616;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 70% 45% at 50% -10%, rgba(143, 210, 255, 0.07), transparent 55%),
+        var(--bg);
+      color: var(--fg);
+      font-family: "Fira Mono", ui-monospace, monospace;
     }
 
     a {
-      margin-right: 10px;
-      color: #8fd2ff
+      color: var(--link);
+      text-decoration: none;
     }
 
-    a:visited {
-      color: #7cbcdc
-    }
+    a:visited { color: var(--link-dim); }
+    a:hover { text-decoration: underline; }
 
-    body {
+    .top {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
       display: flex;
-      width: 100vw;
-      height: 100vh;
+      gap: 1rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      z-index: 2;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 4rem 1.25rem 3rem;
+      text-align: center;
+    }
+
+    .title {
+      position: relative;
       margin: 0;
-      background: #131313;
-      color: #fff;
-      font-size: 65px;
-      font-family: 'Fira Mono', monospace;
-      letter-spacing: -7px;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        font-size: 38px;
-        letter-spacing: -4px;
-      }
-    }
-
-    div.title {
+      font-size: clamp(2.4rem, 11vw, 4.5rem);
+      letter-spacing: -0.08em;
+      line-height: 1;
       animation: glitch 1s linear infinite;
     }
 
-    @keyframes glitch {
-
-      2%,
-      64% {
-        transform: translate(2px, 0) skew(0deg);
-      }
-
-      4%,
-      60% {
-        transform: translate(-2px, 0) skew(0deg);
-      }
-
-      62% {
-        transform: translate(0, 0) skew(5deg);
-      }
-    }
-
-    div.title:before,
-    div.title:after {
-      content: attr(title);
+    .title::before,
+    .title::after {
+      content: attr(data-text);
       position: absolute;
       left: 0;
+      top: 0;
+      width: 100%;
     }
 
-    div.title:before {
+    .title::before {
       animation: glitchTop 1s linear infinite;
       clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
-      -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+    }
+
+    .title::after {
+      animation: glitchBottom 1.5s linear infinite;
+      clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+    }
+
+    @keyframes glitch {
+      2%, 64% { transform: translate(2px, 0) skew(0deg); }
+      4%, 60% { transform: translate(-2px, 0) skew(0deg); }
+      62% { transform: translate(0, 0) skew(5deg); }
     }
 
     @keyframes glitchTop {
-
-      2%,
-      64% {
-        transform: translate(2px, -2px);
-      }
-
-      4%,
-      60% {
-        transform: translate(-2px, 2px);
-      }
-
-      62% {
-        transform: translate(13px, -1px) skew(-13deg);
-      }
+      2%, 64% { transform: translate(2px, -2px); }
+      4%, 60% { transform: translate(-2px, 2px); }
+      62% { transform: translate(13px, -1px) skew(-13deg); }
     }
 
-    div.title:after {
-      animation: glitchBotom 1.5s linear infinite;
-      clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
-      -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+    @keyframes glitchBottom {
+      2%, 64% { transform: translate(-2px, 0); }
+      4%, 60% { transform: translate(-2px, 0); }
+      62% { transform: translate(-22px, 5px) skew(21deg); }
     }
 
-    @keyframes glitchBotom {
+    .tagline {
+      margin: 1.25rem 0 0;
+      max-width: 28rem;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
 
-      2%,
-      64% {
-        transform: translate(-2px, 0);
-      }
+    .scroll {
+      margin-top: 2.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
 
-      4%,
-      60% {
-        transform: translate(-2px, 0);
-      }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 1; }
+    }
 
-      62% {
-        transform: translate(-22px, 5px) skew(21deg);
-      }
+    .projects {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 0 1.25rem 5rem;
+    }
+
+    .projects h2 {
+      margin: 0 0 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.35rem 1.25rem;
+      align-items: baseline;
+      padding: 1.15rem 0.35rem;
+      border-bottom: 1px solid var(--line);
+      transition: background 0.2s ease, padding-left 0.2s ease;
+    }
+
+    .item:hover {
+      background: var(--card);
+      padding-left: 0.65rem;
+    }
+
+    .name {
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      letter-spacing: -0.03em;
+      color: var(--fg);
+    }
+
+    .name:visited { color: var(--fg); }
+    .name:hover { color: var(--link); }
+
+    .links {
+      display: flex;
+      gap: 0.85rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .desc {
+      grid-column: 1 / -1;
+      margin: 0;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    .foot {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 0 1.25rem 3rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      .top { font-size: 0.8rem; }
+      .item { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .title, .title::before, .title::after, .scroll { animation: none; }
     }
   </style>
 </head>
-
 <body>
-  <div class="title" title="TO JE MOC">TO JE MOC</div>
-  <div class="links">
+  <nav class="top" aria-label="Links">
+    <a href="https://github.com/tojemoc">github</a>
     <a href="mailto:hla@tjm.sk">contact</a>
-  </div>
-</body>
+  </nav>
 
+  <header class="hero">
+    <h1 class="title" data-text="TO JE MOC">TO JE MOC</h1>
+    <p class="tagline">Tools and experiments from the tojemoc org — TV automation, media, and small useful apps.</p>
+    <p class="scroll"><a href="#projects">projects ↓</a></p>
+  </header>
+
+  <section class="projects" id="projects">
+    <h2>Current projects</h2>
+    <ul class="list">
+      <li class="item">
+        <a class="name" href="https://github.com/tojemoc/cardex">cardex</a>
+        <div class="links">
+          <a href="https://cardex.tjm.sk" target="_blank" rel="noopener noreferrer" aria-label="cardex live site">live</a>
+          <a href="https://github.com/tojemoc/cardex" target="_blank" rel="noopener noreferrer" aria-label="cardex GitHub repository">repo</a>
+        </div>
+        <p class="desc">Loyalty wallet (Stocard-style).</p>
+      </li>
+      <li class="item">
+        <a class="name" href="https://github.com/tojemoc/vmp">vmp</a>
+        <div class="links">
+          <a href="https://vmp.tjm.sk" target="_blank" rel="noopener noreferrer" aria-label="vmp live site">live</a>
+          <a href="https://github.com/tojemoc/vmp" target="_blank" rel="noopener noreferrer" aria-label="vmp GitHub repository">repo</a>
+        </div>
+        <p class="desc">Video monetization — HLS streaming with subscription access.</p>
+      </li>
+      <li class="item">
+        <a class="name" href="https://github.com/tojemoc/foodie">foodie</a>
+        <div class="links">
+          <a href="https://foodie-staging.pages.dev" target="_blank" rel="noopener noreferrer" aria-label="foodie staging site">staging</a>
+          <a href="https://github.com/tojemoc/foodie" target="_blank" rel="noopener noreferrer" aria-label="foodie GitHub repository">repo</a>
+        </div>
+        <p class="desc">Painless grocery lists and expiry tracking.</p>
+      </li>
+      <li class="item">
+        <a class="name" href="https://github.com/tojemoc/rdgen">rdgen</a>
+        <div class="links">
+          <a href="https://rdgen.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="rdgen live site">live</a>
+          <a href="https://github.com/tojemoc/rdgen" target="_blank" rel="noopener noreferrer" aria-label="rdgen GitHub repository">repo</a>
+        </div>
+        <p class="desc">Rundown generator.</p>
+      </li>
+      <li class="item">
+        <a class="name" href="https://github.com/tojemoc/sofie">sofie</a>
+        <div class="links">
+          <a href="https://github.com/tojemoc/sofie" target="_blank" rel="noopener noreferrer" aria-label="sofie GitHub repository">repo</a>
+        </div>
+        <p class="desc">Sofie TV studio automation workspace and related tooling.</p>
+      </li>
+      <li class="item">
+        <a class="name" href="https://github.com/tojemoc/sofie-demo-assets">sofie-demo-assets</a>
+        <div class="links">
+          <a href="https://github.com/tojemoc/sofie-demo-assets" target="_blank" rel="noopener noreferrer" aria-label="sofie-demo-assets GitHub repository">repo</a>
+        </div>
+        <p class="desc">Boilerplate for CasparCG graphics templates with Vue.</p>
+      </li>
+      <li class="item">
+        <a class="name" href="https://github.com/tojemoc/unopus">unopus</a>
+        <div class="links">
+          <a href="https://github.com/tojemoc/unopus" target="_blank" rel="noopener noreferrer" aria-label="unopus GitHub repository">repo</a>
+        </div>
+        <p class="desc">Simple rundown editor for Sofie TV Automation.</p>
+      </li>
+      <li class="item">
+        <a class="name" href="https://github.com/tojemoc/beeper-selfhost">beeper-selfhost</a>
+        <div class="links">
+          <a href="https://beep.tjm.sk" target="_blank" rel="noopener noreferrer" aria-label="beeper-selfhost live site">live</a>
+          <a href="https://github.com/tojemoc/beeper-selfhost" target="_blank" rel="noopener noreferrer" aria-label="beeper-selfhost GitHub repository">repo</a>
+        </div>
+        <p class="desc">Beeper self-host with the full bridge set.</p>
+      </li>
+    </ul>
+  </section>
+
+  <p class="foot">More on <a href="https://github.com/tojemoc">github.com/tojemoc</a></p>
+</body>
 </html>
