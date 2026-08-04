@@ -170,7 +170,7 @@
     }
 
     .btn-primary:hover {
-      background: #0d9488;
+      background: #115e59;
       color: #fff;
     }
 
@@ -284,9 +284,12 @@
       gap: 1rem 1.5rem;
       padding: 1.35rem 0;
       border-bottom: 1px solid var(--line);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+
+    .path-list.is-revealing li {
       opacity: 0;
       transform: translateY(0.75rem);
-      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
     }
 
     .path-list li.in {
@@ -511,10 +514,29 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+
       .hero-media img,
       .hero-copy,
       .portrait,
-      .path-list li { animation: none; transition: none; opacity: 1; transform: none; }
+      .path-list li,
+      .path-list.is-revealing li {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+
+      .hero-nav a,
+      .btn,
+      .clients a {
+        transition: none;
+      }
+
+      .btn:hover,
+      .clients a:hover {
+        transform: none;
+      }
     }
   </style>
 </head>
@@ -687,19 +709,23 @@
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
 
+    var list = document.querySelector(".path-list");
     var items = document.querySelectorAll(".path-list li");
-    if ("IntersectionObserver" in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in");
-            io.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.2 });
-      items.forEach(function (el) { io.observe(el); });
-    } else {
-      items.forEach(function (el) { el.classList.add("in"); });
+    if (list && "IntersectionObserver" in window) {
+      try {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in");
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.2 });
+        list.classList.add("is-revealing");
+        items.forEach(function (el) { io.observe(el); });
+      } catch (err) {
+        /* leave entries visible */
+      }
     }
   </script>
 </body>
