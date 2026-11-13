@@ -11,13 +11,17 @@ jobs:
     name: Deploy
     steps:
       - uses: actions/checkout@v7
-      - name: Deploy
+      - name: Deploy tjm.sk
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: |
-            pages deploy tojemoc --project-name=tjm-sk
-            pages deploy jakubdobos --project-name=jakubdobos-eu
-#            pages deploy nixies --project-name=nixietubeclock-eu
-       
+          workingDirectory: tojemoc
+          command: pages deploy public --project-name=tjm-sk
+
+      - name: Deploy jakubdobos.eu
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy jakubdobos --project-name=jakubdobos-eu
